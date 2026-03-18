@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "268965482512",
+    "project_id": "gestion-inventario-zaitec",
+    "storage_bucket": "gestion-inventario-zaitec.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268965482512:android:f21132df9a3b46f5d9fa95",
+        "android_client_info": {
+          "package_name": "com.example.gestion_inventario_zaitec"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmxgwzziXWqyTcOvlGCZ_3Uync66ZjH4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
