@@ -3,20 +3,20 @@ import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException, Fi
 import 'package:firebase_core/firebase_core.dart';
 
 class FirebaseManager {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseAuth get _auth => FirebaseAuth.instance; // instancia de firebase
 
-  var email= "Ejemplo@gmail.com";
-  var password= "Ejemplo123";
+  var email= "Ejemplo@gmail.com"; // correo ejemplo
+  var password= "Ejemplo123"; // contraseña Ejemplo
 
   // Método para Registro (El que tenías originalmente)
-  Future<User?> registrarUsuario(String email, String password) async {
+  Future<User?> registrarUsuario(String email, String password) async { 
     try {
-      final credential = await _auth.createUserWithEmailAndPassword(
+      final credential = await _auth.createUserWithEmailAndPassword( // llamamal metodo de firebase para registrar
         email: email,
         password: password,
       );
-      return credential.user;
-    } on FirebaseAuthException catch (e) {
+      return credential.user; // devuelve las credenciales del usuario
+    } on FirebaseAuthException catch (e) { // excepciones por si la contraseña es debil o ya existae el correo
       if (e.code == 'weak-password') {
         print('La contraseña es muy débil.');
       } else if (e.code == 'email-already-in-use') {

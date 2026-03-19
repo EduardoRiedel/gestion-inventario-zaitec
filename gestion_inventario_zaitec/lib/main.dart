@@ -1,8 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_inventario_zaitec/FirebaseManager.dart';
+import 'package:gestion_inventario_zaitec/firebase_options.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const MyApp());
+
+  await Firebase.initializeApp( // inicializar firebase en el main
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -116,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () => firebaseMgr.registrarUsuario("ejemplo@gmail.com", "Ejemplo123"),
+        onPressed: () => firebaseMgr.registrarUsuario("ejemplo@gmail.com", "Ejemplo123"), // llamo al metodo de registrar para crear un nuevo usuario
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
