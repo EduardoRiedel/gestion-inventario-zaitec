@@ -8,7 +8,7 @@ class FirebaseManager {
   var email= "Ejemplo@gmail.com"; // correo ejemplo
   var password= "Ejemplo123"; // contraseña Ejemplo
 
-  // Método para Registro (El que tenías originalmente)
+  // Método para Registro de Usuario
   Future<User?> registrarUsuario(String email, String password) async { 
     try {
       final credential = await _auth.createUserWithEmailAndPassword( // llamamal metodo de firebase para registrar
@@ -22,10 +22,31 @@ class FirebaseManager {
       } else if (e.code == 'email-already-in-use') {
         print('Ya existe una cuenta con este correo.');
       }
+        return null;
+      }
+    }
+
+     // Método para Iniciar Sesión
+    Future<User?> iniciarSesion(String email, String password) async {
+    try {
+      final credential = await _auth.signInWithEmailAndPassword( // llama al metodo de firebase para iniciar sesión
+        email: email,
+        password: password,
+      );
+      return credential.user; // devuelve las credenciales del usuario si todo es correcto
+    } on FirebaseAuthException catch (e) { // excepciones por si el correo no existe, la contraseña es incorrecta o el correo esta mal escrito.
+      if (e.code == 'user-not-found') {
+        print('No se encontró una cuenta con este correo.');
+      } else if (e.code == 'wrong-password') {
+        print('Contraseña incorrecta.');
+      } else if(e.code == 'invalid-email') {
+        print('Correo electrónico no válido.');
+      }
       return null;
     }
-  }
-
-
-
+    catch (e) {     // captura cualquier otro error inesperado
+      print('Error inesperado: $e');
+      return null;
+    }
+    }
 }
