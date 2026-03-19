@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_inventario_zaitec/FirebaseManager.dart';
 
 void main() {
   runApp(const MyApp());
@@ -69,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final firebaseMgr = FirebaseManager();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -112,8 +114,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => firebaseMgr.registrarUsuario("ejemplo@gmail.com", "Ejemplo123"),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
