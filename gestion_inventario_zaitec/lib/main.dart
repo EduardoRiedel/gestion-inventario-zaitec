@@ -121,10 +121,21 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => firebaseMgr.registrarUsuario("ejemplo@gmail.com", "Ejemplo123"), // llamo al metodo de registrar para crear un nuevo usuario
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton( // estos botones son de prueba
+            onPressed: () => firebaseMgr.registrarUsuario("ejemplo@gmail.com", "Ejemplo123"), // llamo al metodo de registrar para crear un nuevo usuario
+            tooltip: 'Register',
+            child: const Icon(Icons.add),
+          ),
+          const SizedBox(width: 16),
+          FloatingActionButton( // estos botones son de prueba 
+            onPressed: () => firebaseMgr.iniciarSesion("ejemplo@gmail.com", "Ejemplo123"), // llamo al metodo de iniciar sesión
+            tooltip: 'Login',
+            child: const Icon(Icons.login),
+          ),
+        ],
       ),
     );
   }

@@ -35,6 +35,7 @@ class FirebaseManager {
       );
       return credential.user; // devuelve las credenciales del usuario si todo es correcto
     } on FirebaseAuthException catch (e) { // excepciones por si el correo no existe, la contraseña es incorrecta o el correo esta mal escrito.
+    
       if (e.code == 'user-not-found') {
         print('No se encontró una cuenta con este correo.');
       } else if (e.code == 'wrong-password') {
@@ -42,6 +43,7 @@ class FirebaseManager {
       } else if(e.code == 'invalid-email') {
         print('Correo electrónico no válido.');
       }
+      print("se a iniciado sesion correctamente");
       return null;
     }
     catch (e) {     // captura cualquier otro error inesperado
