@@ -1,6 +1,6 @@
 
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException, FirebaseAuth, User;
-import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseManager {
   FirebaseAuth get _auth => FirebaseAuth.instance; // instancia de firebase
@@ -51,4 +51,32 @@ class FirebaseManager {
       return null;
     }
     }
+
+    // GESTION DE CITAS
+
+    FirebaseFirestore get _firestore => FirebaseFirestore.instance; // Instancia privada de firestore
+    //Metodo apra obtener las citas para el peluquero
+    Stream<QuerySnapshot> obtenerCitasPeluquero( {
+      String? usuario, servicio,
+      DateTime? fechaHora
+    }) {
+      // Apuntamos a la colección "Citas"
+      Query query = _firestore.collection('Citas');
+      // Filtro por Nombre de Usuario
+      if (usuario != null && usuario.isNotEmpty) {
+        query = query.where('Usuario', isEqualTo: usuario);
+      }
+      // Filtro por Servicio
+      if (servicio != null && servicio.isNotEmpty) {
+        query = query.where('Servicio', isEqualTo: servicio);
+      }
+      // Filtro por Fecha y Hora
+      if (fechaHora != null) {
+        DateTime inicio = DateTime(fechaHora.year, fechaHora.month, fechaHora.day); // Inicio del día
+        DateTime fin = inicio.add(Duration(days: 1)); // Fin del día
+        query = query.where('Fecha y Hora', isGreaterThanOrEqualTo: inicio, isLessThan: fin);
+      }
+    // Ordenamos por fecha y hora de forma ascendente (más próximas primero)
+    return query.orderBy('Fecha y Hora',descending:false).snapshots(); // Retorna un stream de snapshots ordenados por fecha y hora
+}
 }
