@@ -52,7 +52,7 @@ class FirebaseManager {
     }
     }
 
-    // GESTION DE CITAS
+    // FILTRO DE CITAS
 
     FirebaseFirestore get _firestore => FirebaseFirestore.instance; // Instancia privada de firestore
     //Metodo apra obtener las citas para el peluquero
