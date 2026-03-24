@@ -1,9 +1,12 @@
 
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException, FirebaseAuth, User;
-import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'Cita.dart';
 
 class FirebaseManager {
   FirebaseAuth get _auth => FirebaseAuth.instance; // instancia de firebase
+
+  final CollectionReference citasIns = FirebaseFirestore.instance.collection('Citas'); // referencia a la colección de citas
 
   var email= "Ejemplo@gmail.com"; // correo ejemplo
   var password= "Ejemplo123"; // contraseña Ejemplo
@@ -51,4 +54,58 @@ class FirebaseManager {
       return null;
     }
     }
+
+    // Método para crear cita
+  Future<void> crearNuevaCita({ // parametros necesarios para la cita
+    required String servicio,
+    required String precio,
+    required String usuario,
+    required DateTime fechaElegida, 
+  }) async {
+    try {
+      Cita nuevaCita = Cita( // constructor 
+        servicio: servicio,
+        precio: int.tryParse(precio) ?? 0,
+        usuario: usuario,
+        fechaHora: fechaElegida, 
+      );
+
+      await citasIns.add(nuevaCita.toMap()); // añade la cita a firebase
+      print("Cita creada");
+    } catch (e) {
+      print("Error al crear: $e");
+    }
+  }
+
+ // Metodo para actualizar cita
+  Future<void> editarCita({  // parametros necesarios para la actualización
+    required String id,
+    required String servicio,
+    required String precio,
+    required String usuario,
+    required DateTime fecha,
+  }) async {
+    try {
+      Cita editada = Cita( // constructor
+        servicio: servicio,
+        precio: int.tryParse(precio) ?? 0, // la interrogacion es para manejar el caso donde la conversion falle
+        usuario: usuario,
+        fechaHora: fecha,
+      );
+      await citasIns.doc(id).update(editada.toMap());
+    } catch (e) {
+      print("Error al editar: $e");
+    }
+  }
+
+// Metodo para eliminar Citas
+Future<void> eliminarCita({required String id}) async { // parametros para eliminar cita
+    try {
+      await citasIns.doc(id).delete();
+    } catch (e) {
+      print("Error al eliminar: $e");
+    }
+  }
+
+
 }
