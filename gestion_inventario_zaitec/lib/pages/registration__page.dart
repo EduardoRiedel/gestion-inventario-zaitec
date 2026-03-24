@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_inventario_zaitec/pages/login_page.dart';
+import '../styles.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -31,48 +32,32 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
                 // PRUEBA: Título con color rojo fuerte para que lo veas sí o sí
-                const Text(
-                  'ZAITEC PELUQUEROS',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red, // Cámbialo a rojo solo para probar
-                  ),
-                ),
+                Text('ZAITEC PELUQUEROS', style: AppStyles.tituloPrincipal),
                 const SizedBox(height: 10),
-                const Text(
-                  'Gestión de Citas',
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
-                ),
+
+                Text('Gestión de Citas', style: AppStyles.subtitulo),
+
                 const SizedBox(height: 50),
                 
                 // Campos de texto
                 TextField(
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
-                  ),
+                  decoration: AppStyles.fieldDecoration('Email', Icons.email_outlined), // Icono más fino
                 ),
+
                 const SizedBox(height: 16),
+
                 TextField(
                   controller: _passwordController,
                   obscureText: _obscurePassword,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    border: const OutlineInputBorder(),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                      ),
-                      onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
-                    ),
-                  ),
+                  // Usamos Icons.lock_outline para el look minimalista
+                  decoration: AppStyles.fieldDecoration('Password', Icons.lock_outline), 
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(
+                  style: AppStyles.botonPrincipal,
                   onPressed: () {
                     Navigator.push(
                       context,
