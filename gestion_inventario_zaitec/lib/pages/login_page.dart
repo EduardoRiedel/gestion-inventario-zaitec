@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'registration__page.dart';
 import '../styles.dart';
 import 'citas_page.dart';
+import 'package:gestion_inventario_zaitec/Firebase/FirebaseManager.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -73,6 +74,12 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                   style: AppStyles.botonPrincipal,
                   onPressed: () {
+                    final email = _emailController.text;
+                    final password = _passwordController.text;
+
+                    // Llamar al método de inicio de sesión del FirebaseManager
+                    FirebaseManager().iniciarSesion(email, password);
+
                     // ESTO es lo que hace el salto de página:
                     Navigator.push(
                       context,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_inventario_zaitec/pages/login_page.dart';
 import '../styles.dart';
+import 'package:gestion_inventario_zaitec/Firebase/FirebaseManager.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -48,17 +49,25 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
 
                 const SizedBox(height: 16),
-
+                // Campo de contraseña
                 TextField(
                   controller: _passwordController,
                   obscureText: _obscurePassword,
                   // Usamos Icons.lock_outline para el look minimalista
                   decoration: AppStyles.fieldDecoration('Password', Icons.lock_outline), 
                 ),
+
                 const SizedBox(height: 30),
                 ElevatedButton(
                   style: AppStyles.botonPrincipal,
                   onPressed: () {
+
+                    final email = _emailController.text;
+                    final password = _passwordController.text;
+
+                    // Llamar al método de registro del FirebaseManager
+                    FirebaseManager().registrarUsuario(email, password);
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const LoginPage()),
