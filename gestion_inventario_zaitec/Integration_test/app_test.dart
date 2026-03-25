@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 
 
-import 'package:gestion_inventario_zaitec/FirebaseManager.dart'; 
+import 'package:gestion_inventario_zaitec/Firebase/FirebaseManager.dart'; 
 
 void main() {
   // Inicializar el enlace del test de integración
