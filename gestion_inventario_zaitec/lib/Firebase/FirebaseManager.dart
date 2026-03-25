@@ -1,7 +1,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException, FirebaseAuth, User;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'Cita.dart';
+import '../Modelos/Cita.dart';
 
 class FirebaseManager {
   FirebaseAuth get _auth => FirebaseAuth.instance; // instancia de firebase
