@@ -1,33 +1,71 @@
 
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuthException, FirebaseAuth, User;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:gestion_inventario_zaitec/pages/login_page.dart';
 import '../Modelos/Cita.dart';
 
 class FirebaseManager {
   FirebaseAuth get _auth => FirebaseAuth.instance; // instancia de firebase
 
   final CollectionReference citasIns = FirebaseFirestore.instance.collection('Citas'); // referencia a la colección de citas
-
-  var email= "Ejemplo@gmail.com"; // correo ejemplo
-  var password= "Ejemplo123"; // contraseña Ejemplo
-
+ 
   // Método para Registro de Usuario
-  Future<User?> registrarUsuario(String email, String password) async { 
-    try {
-      final credential = await _auth.createUserWithEmailAndPassword( // llamamal metodo de firebase para registrar
-        email: email,
-        password: password,
+ Future<void> registrarUsuario(BuildContext context, String email, String password, String confirmPassword) async {
+  
+  //Validación de contraseñas
+  if (password != confirmPassword) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Las contraseñas no coinciden"), backgroundColor: Colors.red),
+    );
+    return; 
+  }
+
+  try {
+    // Registro en Firebase
+    await _auth.createUserWithEmailAndPassword(
+      email: email.trim(),
+      password: password,
+    );
+
+    // Muestro el "Toast" y navego
+    if (context.mounted) {
+      //aviso de éxito 
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("¡Cuenta creada con éxito! Redirigiendo..."),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 2), // Duración
+        ),
       );
-      return credential.user; // devuelve las credenciales del usuario
-    } on FirebaseAuthException catch (e) { // excepciones por si la contraseña es debil o ya existae el correo
-      if (e.code == 'weak-password') {
-        print('La contraseña es muy débil.');
-      } else if (e.code == 'email-already-in-use') {
-        print('Ya existe una cuenta con este correo.');
-      }
-        return null;
+
+      //Espera para que el usuario lea el mensage
+      await Future.delayed(const Duration(seconds: 1));
+
+      // LoginPage
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
       }
     }
+
+  } on FirebaseAuthException catch (e) {
+    // Error SnackBar
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: Contraseña demasiado débil"), backgroundColor: Colors.orange),
+      );
+    }
+  } catch (e) {
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Error inesperado"), backgroundColor: Colors.red),
+      );
+    }
+  }
+}
 
      // Método para Iniciar Sesión
     Future<User?> iniciarSesion(String email, String password) async {
@@ -135,4 +173,6 @@ Future<void> eliminarCita({required String id}) async { // parametros para elimi
     // Ordenamos por fecha y hora de forma ascendente (más próximas primero)
     return query.orderBy('Fecha y Hora',descending:false).snapshots(); // Retorna un stream de snapshots ordenados por fecha y hora
 }
+
+
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'registration__page.dart';
 import '../styles.dart';
-import 'citas_page.dart';
+import 'citas/citas_page.dart';
+import 'package:gestion_inventario_zaitec/firebase/firebaseManager.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,6 +14,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  bool _oscurecerPassword = true; // Por defecto la contraseña está oculta
+
   bool _obscurePassword = true;
 
   @override
@@ -22,19 +26,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void _login() {
-    // Add login logic here
-    final email = _emailController.text;
-    final password = _passwordController.text;
-    
-    if (email.isNotEmpty && password.isNotEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Login successful')),
-      );
-    }
-  }
-
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea( 
@@ -52,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                 Text('Gestión de Citas', style: AppStyles.subtitulo),
 
                 const SizedBox(height: 50),
-                
+
                 // Campos de texto
                 TextField(
                   controller: _emailController,
@@ -77,13 +69,13 @@ class _LoginPageState extends State<LoginPage> {
                    
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const AgendaPage()),
+                      MaterialPageRoute(
+                        builder: (context) => const AgendaPage(),
+                      ),
                     );
                   },
                   child: const Text('INICIAR SESIÓN'),
                 ),
-                
-                
 
                 const SizedBox(height: 20),
 
@@ -94,7 +86,9 @@ class _LoginPageState extends State<LoginPage> {
                     
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const RegisterPage()),
+                      MaterialPageRoute(
+                        builder: (context) => const RegisterPage(),
+                      ),
                     );
                   },
                   child: const Text('¿No tienes cuenta? Regístrate aquí'),
