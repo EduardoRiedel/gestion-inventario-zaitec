@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gestion_inventario_zaitec/firebase/firebaseManager.dart';
 import 'package:gestion_inventario_zaitec/firebase/firebase_options.dart';
 import 'package:gestion_inventario_zaitec/pages/login_page.dart';
-
+ // principal
 Future<void> main() async {
   runApp(const MyApp());
 
