@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'registration__page.dart';
 import '../styles.dart';
-import 'citas_page.dart';
+import 'citas/citas_page.dart';
 import 'package:gestion_inventario_zaitec/firebase/firebaseManager.dart';
 
 class LoginPage extends StatefulWidget {

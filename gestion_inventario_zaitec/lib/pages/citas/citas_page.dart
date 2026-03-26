@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../styles.dart';
+import '../../styles.dart';
 
 class AgendaPage extends StatefulWidget {
   const AgendaPage({super.key});
