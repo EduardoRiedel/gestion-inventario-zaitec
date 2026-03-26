@@ -49,6 +49,7 @@ class _AgendaPageState extends State<AgendaPage> {
   @override
   void dispose() {
     _nombreController.dispose();
+    _servicioController.dispose();
     _filtroNombreController.dispose();
     super.dispose();
   }
@@ -117,6 +118,122 @@ class _AgendaPageState extends State<AgendaPage> {
               _buildShiftButton('TARDE'),
             ],
           ),
+
+          const SizedBox(height: 15),
+
+          // 3. LISTA DINÁMICA (Cambia según si estamos en modo normal, editar o añadir)
+          Expanded(
+            child: enProceso ? _buildAvailableHoursList() : _buildAppointmentsList(),
+          ),
+
+          // 4. BOTONES INFERIORES
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: enProceso ? null : () => setState(() => _anadiendoCita = true),
+                    style: AppStyles.botonPrincipal,
+                    child: const Text('Añadir'),
+                  ),
+                ),
+                const SizedBox(width: 15),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: (_indiceCitaSeleccionada != null && !enProceso)
+                      ? () => setState(() => _editandoCita = true) 
+                      : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: (_indiceCitaSeleccionada != null && !enProceso) ? AppStyles.black : Colors.grey,
+                    ).merge(AppStyles.botonPrincipal),
+                    child: Text(enProceso ? '---' : 'Editar'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // --- LISTA DE HORAS DISPONIBLES (Para Añadir o Editar) ---
+  Widget _buildAvailableHoursList() {
+    final List<String> horasLibres = _turnoSeleccionado == 'MAÑANA' 
+      ? ['09:00', '10:30', '12:00'] 
+      : ['16:30', '18:30', '20:00'];
+
+    return ListView.builder(
+      itemCount: horasLibres.length,
+      itemBuilder: (context, index) {
+        return InkWell(
+          onTap: () {
+            if (_anadiendoCita) {
+              _mostrarDialogoNuevaCita(horasLibres[index]);
+            } else {
+              // Lógica de mover (Editar)
+              setState(() {
+                _editandoCita = false;
+                _indiceCitaSeleccionada = null;
+              });
+            }
+          },
+          child: _appointmentTile(horasLibres[index], "Disponible", "", isOccupied: false),
+        );
+      },
+    );
+  }
+
+  // --- CUADRO DE DIÁLOGO PARA DATOS DEL CLIENTE ---
+  void _mostrarDialogoNuevaCita(String hora) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Obliga a usar los botones
+      builder: (context) => AlertDialog(
+        title: Text("Cita a las $hora", style: const TextStyle(fontWeight: FontWeight.bold)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: _nombreController,
+              decoration: const InputDecoration(labelText: 'Nombre del Cliente'),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: _servicioController,
+              decoration: const InputDecoration(labelText: 'Tipo de Servicio'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              _nombreController.clear();
+              _servicioController.clear();
+              Navigator.pop(context); // Cierra el diálogo
+            },
+            child: const Text("CANCELAR", style: TextStyle(color: Colors.red)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppStyles.black),
+            onPressed: () {
+              // Aquí iría el guardado en base de datos
+              setState(() {
+                _anadiendoCita = false;
+              });
+              _nombreController.clear();
+              _servicioController.clear();
+              Navigator.pop(context); // Vuelve a la agenda
+            },
+            child: const Text("ACEPTAR", style: TextStyle(color: AppStyles.white)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // --- WIDGETS DE APOYO (Botones y Tiles) ---
           const SizedBox(height: 15),
           Expanded(
             child: enProceso ? _buildAvailableHoursList() : _buildAppointmentsList(),
@@ -323,7 +440,14 @@ class _AgendaPageState extends State<AgendaPage> {
   Widget _buildShiftButton(String turno) {
     bool isSelected = _turnoSeleccionado == turno;
     return GestureDetector(
-      onTap: () { if (!_editandoCita && !_anadiendoCita) setState(() { _turnoSeleccionado = turno; _indiceCitaSeleccionada = null; }); },
+      onTap: () {
+        if (!_editandoCita && !_anadiendoCita) {
+          setState(() {
+            _turnoSeleccionado = turno;
+            _indiceCitaSeleccionada = null;
+          });
+        }
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 8),
         decoration: BoxDecoration(
