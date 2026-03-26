@@ -1,25 +1,30 @@
 class Cita {
-  String? id; // El ID que genera Firebase
+  String? id;
   final DateTime fechaHora;
   final int precio;
   final String servicio;
   final String usuario;
 
-  Cita({ // constructor de la clase
-    this.id, 
-    required this.fechaHora, 
-    required this.precio, 
-    required this.servicio, 
-    required this.usuario
-  });
+  Cita({this.id, required this.fechaHora, required this.precio, required this.servicio, required this.usuario});
 
-  // Para enviar a Firebase 
+  // Enviar a Firebase (toMap)
   Map<String, dynamic> toMap() {
     return {
-      'Fecha y Hora': fechaHora,
-      'Precio': precio,
-      'Servicio': servicio,
-      'Usuario': usuario,
+      'fechaHora': fechaHora, 
+      'precio': precio,
+      'servicio': servicio,
+      'usuario': usuario,
     };
+  }
+
+  // Recibir datos de Firebase (fromMap)
+  factory Cita.fromMap(Map<String, dynamic> map, String documentId) {
+    return Cita(
+      id: documentId,
+      fechaHora: (map['fechaHora'] as dynamic).toDate().toLocal(), // Convertir Timestamp a DateTime
+      precio: map['precio'] ?? 0,
+      servicio: map['servicio'] ?? '',
+      usuario: map['usuario'] ?? '',
+    );
   }
 }
