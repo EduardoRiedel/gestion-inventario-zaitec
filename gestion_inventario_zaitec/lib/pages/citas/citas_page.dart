@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../styles.dart';
-import '../Modelos/Cita.dart';
-import '../Modelos/servicio_cita.dart';
-import '../Metodos/borrados.dart';
+import '../../styles.dart';
+import '../../Modelos/Cita.dart';
+import '../../Modelos/servicio_cita.dart';
+import '../../Metodos/borrados.dart';
 
 class AgendaPage extends StatefulWidget {
   const AgendaPage({super.key});
