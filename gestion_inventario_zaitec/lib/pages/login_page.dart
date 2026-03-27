@@ -57,7 +57,22 @@ class _LoginPageState extends State<LoginPage> {
                 TextField(
                   controller: _passwordController,
                   obscureText: _obscurePassword,
-                  decoration: AppStyles.fieldDecoration('Password', Icons.lock_outline), 
+                  decoration:
+                      AppStyles.fieldDecoration(
+                        'Contraseña',
+                        Icons.lock_outline,
+                      ).copyWith(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () => setState(
+                            () => _obscurePassword = !_obscurePassword,
+                          ),
+                        ),
+                      ),
                 ),
 
                 const SizedBox(height: 30),
