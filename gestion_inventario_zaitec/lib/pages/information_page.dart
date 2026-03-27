@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_inventario_zaitec/pages/citas_page.dart';
+import 'package:gestion_inventario_zaitec/pages/citas/citas_page.dart';
 import 'package:url_launcher/url_launcher.dart'; 
 import '../styles.dart';
 
