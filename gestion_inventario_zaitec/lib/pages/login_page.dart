@@ -29,17 +29,15 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        // <--- ESTO evita que el texto se esconda arriba del todo
-        child: Center(
-          // <--- ESTO obliga a centrarlo
-          child: SingleChildScrollView(
-            // <--- ESTO permite que se vea con el teclado abierto
+      body: SafeArea( 
+        child: Center( 
+          child: SingleChildScrollView( 
             padding: const EdgeInsets.all(32.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // PRUEBA: Título con color rojo fuerte para que lo veas sí o sí
+
+                // título principal
                 Text('ZAITEC PELUQUEROS', style: AppStyles.tituloPrincipal),
                 const SizedBox(height: 10),
 
@@ -50,51 +48,25 @@ class _LoginPageState extends State<LoginPage> {
                 // Campos de texto
                 TextField(
                   controller: _emailController,
-                  decoration: AppStyles.fieldDecoration(
-                    'Email',
-                    Icons.email_outlined,
-                  ), // Icono más fino
+                  decoration: AppStyles.fieldDecoration('Email', Icons.email_outlined), 
                 ),
 
                 const SizedBox(height: 16),
 
+                // Campo de contraseña 
                 TextField(
                   controller: _passwordController,
-                  obscureText: _obscurePassword, // Tu variable bool
-                  decoration:
-                      AppStyles.fieldDecoration(
-                        'Password',
-                        Icons.lock_outline,
-                      ).copyWith(
-                        // <--- Esto mantiene tus estilos y añade lo nuevo
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscurePassword
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: Colors.grey, // O el color que prefieras
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _obscurePassword = !_obscurePassword;
-                            });
-                          },
-                        ),
-                      ),
+                  obscureText: _obscurePassword,
+                  decoration: AppStyles.fieldDecoration('Password', Icons.lock_outline), 
                 ),
 
                 const SizedBox(height: 30),
-
+                
+                // BOTÓN DE INICIO DE SESIÓN
                 ElevatedButton(
                   style: AppStyles.botonPrincipal,
                   onPressed: () {
-                    final email = _emailController.text;
-                    final password = _passwordController.text;
-
-                    // Llamar al método de inicio de sesión del FirebaseManager
-                    FirebaseManager().iniciarSesion(email, password);
-
-                    // ESTO es lo que hace el salto de página:
+                   
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -111,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                 OutlinedButton(
                   style: AppStyles.botonSecundarioOutlined,
                   onPressed: () {
-                    // ESTO es lo que hace el salto de página:
+                    
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -121,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: const Text('¿No tienes cuenta? Regístrate aquí'),
                 ),
-              ], // Cierre de children
+              ], 
             ),
           ),
         ),
