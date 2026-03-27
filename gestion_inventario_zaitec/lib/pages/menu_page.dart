@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_inventario_zaitec/pages/services_page.dart';
+import 'package:gestion_inventario_zaitec/pages/citas_page.dart';
+import 'package:gestion_inventario_zaitec/pages/information_page.dart';
  
 class MenuPage extends StatelessWidget {
   const MenuPage({super.key});
@@ -58,7 +61,10 @@ class MenuPage extends StatelessWidget {
                 _MenuButton(
                   label: 'CITAS',
                   onPressed: () {
-                    // Navegar a la página de citas
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const CitasPage()),
+                    );
                   },
                 ),
  
@@ -68,7 +74,10 @@ class MenuPage extends StatelessWidget {
                 _MenuButton(
                   label: 'SERVICIOS',
                   onPressed: () {
-                    // Navegar a la página de servicios
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ServicesPage()),
+                    );
                   },
                 ),
  
@@ -78,7 +87,10 @@ class MenuPage extends StatelessWidget {
                 _MenuButton(
                   label: 'INFORMACIÓN',
                   onPressed: () {
-                    // Navegar a la página de información
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const InformationPage()),
+                    );
                   },
                 ),
  
