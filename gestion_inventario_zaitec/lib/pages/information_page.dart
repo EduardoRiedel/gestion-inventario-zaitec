@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gestion_inventario_zaitec/pages/citas/citas_page.dart';
 import 'package:url_launcher/url_launcher.dart'; 
 import '../styles.dart';
+import 'menu_page.dart';
 
 
 class InformacionPage extends StatelessWidget {
@@ -31,14 +32,14 @@ class InformacionPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppStyles.white,
         elevation: 0,
-        leading: const Icon(Icons.account_circle_outlined, color: AppStyles.black, size: 30),
+        
         actions: [
           IconButton(
             icon: const Icon(Icons.menu, color: AppStyles.black),
             onPressed: () {
               Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const AgendaPage()), //Aqui debe ir la pagina principal no esta 
+                      MaterialPageRoute(builder: (context) => const MenuPage()), //Aqui debe ir la pagina principal no esta 
                     );
             },
           ),

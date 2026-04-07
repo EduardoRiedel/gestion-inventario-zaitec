@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'menu_page.dart';
  
 // Modelo de datos para un servicio, como una clase POJO en Java
 class Servicio {
@@ -62,19 +63,17 @@ class _ServicesPageState extends State<ServicesPage> {
         backgroundColor: const Color(0xFFEEEEEE),
         elevation: 0,
         automaticallyImplyLeading: false,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundColor: Colors.grey.shade300,
-            child: const Icon(Icons.person, color: Colors.grey),
-          ),
-        ),
+       
         actions: [
           IconButton(
             icon: const Icon(Icons.menu, color: Colors.black87, size: 28),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MenuPage()), //Aqui debe ir la pagina principal no esta 
+                    );
+            },
           ),
-          const SizedBox(width: 8),
         ],
       ),
  
